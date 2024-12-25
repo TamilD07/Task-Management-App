@@ -13,12 +13,12 @@ app.use(
   })
 );
 
-// Display all tasks (formerly users)
+// Display all tasks  
 app.get("/Tasks", (req, res) => {
   return res.json(Task);
 });
 
-// Delete task (formerly delete user)
+// Delete task  
 app.delete("/Task/:id", (req, res) => {
   let id = Number(req.params.id);
   let filteredTasks = Task.filter((task) => task.id !== id); // Changed from User to Task
@@ -27,14 +27,14 @@ app.delete("/Task/:id", (req, res) => {
   });
 });
 
-// Add task (formerly add user)
+// Add task  
 app.post("/Task", (req, res) => {
-  let { title, description, status } = req.body; // Changed fields from name, age, city to title, description, status
+  let { title, description, status } = req.body;  
   if (!title || !description || !status) {
     return res.status(400).send({ message: "All fields are required" });
   }
   let id = Date.now();
-  Task.push({ id, title, description, status }); // Changed from name, age, city to title, description, status
+  Task.push({ id, title, description, status });  
   fs.writeFile("./Details.json", JSON.stringify(Task), (err, data) => {
     if (err) {
       return res.status(500).send({ message: "Failed to add task" });
@@ -43,15 +43,15 @@ app.post("/Task", (req, res) => {
   });
 });
 
-// Update task (formerly update user)
+// Update task 
 app.patch("/Task/:id", (req, res) => {
   let id = Number(req.params.id);
-  let { title, description, status } = req.body; // Changed fields from name, age, city to title, description, status
+  let { title, description, status } = req.body;  
   if (!title || !description || !status) {
     return res.status(400).send({ message: "All fields are required" });
   }
-  let index = Task.findIndex((task) => task.id == id); // Changed from user to task
-  Task.splice(index, 1, { ...req.body }); // Updated to modify task instead of user
+  let index = Task.findIndex((task) => task.id == id);  
+  Task.splice(index, 1, { ...req.body });  
   fs.writeFile("./Details.json", JSON.stringify(Task), (err, data) => {
     if (err) {
       return res.status(500).send({ message: "Failed to update task" });
